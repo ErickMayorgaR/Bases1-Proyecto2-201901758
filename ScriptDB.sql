@@ -25,6 +25,70 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `Proyecto2Bases1`.`Restaurante`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Proyecto2Bases1`.`Restaurante` (
+  `idRestaurante` VARCHAR(50) NOT NULL,
+  `direccion` VARCHAR(45) NOT NULL,
+  `zona` INT NULL,
+  `telefono` INT NULL,
+  `noPersonal` INT NULL,
+  `tieneParqueo` BIT NULL,
+  `Municipio_idMunicipio` INT NOT NULL,
+  PRIMARY KEY (`idRestaurante`),
+  INDEX `fk_Restaurante_Municipio1_idx` (`Municipio_idMunicipio` ASC) VISIBLE,
+  CONSTRAINT `fk_Restaurante_Municipio1`
+    FOREIGN KEY (`Municipio_idMunicipio`)
+    REFERENCES `Proyecto2Bases1`.`Municipio` (`idMunicipio`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Proyecto2Bases1`.`Puesto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Proyecto2Bases1`.`Puesto` (
+  `idPuesto` INT(8) ZEROFILL NOT NULL,
+  `nombre` VARCHAR(45) NULL,
+  `descripcion` VARCHAR(45) NULL,
+  `salario` DECIMAL NULL,
+  PRIMARY KEY (`idPuesto`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Proyecto2Bases1`.`Empleado`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Proyecto2Bases1`.`Empleado` (
+  `idEmpleado` INT NOT NULL,
+  `nombres` VARCHAR(45) NULL,
+  `apellidos` VARCHAR(45) NULL,
+  `fechaNacimiento` DATE NULL,
+  `correo` VARCHAR(45) NULL,
+  `telefono` INT NULL,
+  `direccion` VARCHAR(45) NULL,
+  `dpi` BIGINT NULL,
+  `fechaInicio` DATE NULL,
+  `restaurante_idRestaurante` VARCHAR(50) NOT NULL,
+  `Puesto_idPuesto` INT(8) ZEROFILL NOT NULL,
+  PRIMARY KEY (`idEmpleado`),
+  INDEX `fk_empleado_restaurante_idx` (`restaurante_idRestaurante` ASC) VISIBLE,
+  INDEX `fk_Empleado_Puesto1_idx` (`Puesto_idPuesto` ASC) VISIBLE,
+  CONSTRAINT `fk_empleado_restaurante`
+    FOREIGN KEY (`restaurante_idRestaurante`)
+    REFERENCES `Proyecto2Bases1`.`Restaurante` (`idRestaurante`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Empleado_Puesto1`
+    FOREIGN KEY (`Puesto_idPuesto`)
+    REFERENCES `Proyecto2Bases1`.`Puesto` (`idPuesto`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `Proyecto2Bases1`.`Cliente`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Proyecto2Bases1`.`Cliente` (
@@ -59,77 +123,6 @@ CREATE TABLE IF NOT EXISTS `Proyecto2Bases1`.`Direccion` (
   CONSTRAINT `fk_Direccion_Municipio1`
     FOREIGN KEY (`Municipio_idMunicipio`)
     REFERENCES `Proyecto2Bases1`.`Municipio` (`idMunicipio`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Proyecto2Bases1`.`Restaurante`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Proyecto2Bases1`.`Restaurante` (
-  `idRestaurante` VARCHAR(50) NOT NULL,
-  `direccion` VARCHAR(45) NOT NULL,
-  `zona` INT NULL,
-  `telefono` INT NULL,
-  `noPersonal` INT NULL,
-  `tieneParqueo` BIT NULL,
-  `Municipio_idMunicipio` INT NOT NULL,
-  `Direccion_idDireccion` INT NOT NULL,
-  PRIMARY KEY (`idRestaurante`),
-  INDEX `fk_Restaurante_Municipio1_idx` (`Municipio_idMunicipio` ASC) VISIBLE,
-  INDEX `fk_Restaurante_Direccion1_idx` (`Direccion_idDireccion` ASC) VISIBLE,
-  CONSTRAINT `fk_Restaurante_Municipio1`
-    FOREIGN KEY (`Municipio_idMunicipio`)
-    REFERENCES `Proyecto2Bases1`.`Municipio` (`idMunicipio`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Restaurante_Direccion1`
-    FOREIGN KEY (`Direccion_idDireccion`)
-    REFERENCES `Proyecto2Bases1`.`Direccion` (`idDireccion`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Proyecto2Bases1`.`Puesto`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Proyecto2Bases1`.`Puesto` (
-  `idPuesto` INT(8) ZEROFILL NOT NULL,
-  `nombre` VARCHAR(45) NULL,
-  `descripcion` VARCHAR(45) NULL,
-  `salario` DECIMAL NULL,
-  PRIMARY KEY (`idPuesto`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Proyecto2Bases1`.`Empleado`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Proyecto2Bases1`.`Empleado` (
-  `idEmpleado` INT NOT NULL,
-  `nombres` VARCHAR(45) NULL,
-  `apellidos` VARCHAR(45) NULL,
-  `fechaNacimiento` VARCHAR(45) NULL,
-  `correo` VARCHAR(45) NULL,
-  `telefono` INT NULL,
-  `direccion` VARCHAR(45) NULL,
-  `dpi` BIGINT NULL,
-  `fechaInicio` DATE NULL,
-  `restaurante_idRestaurante` VARCHAR(50) NOT NULL,
-  `Puesto_idPuesto` INT(8) ZEROFILL NOT NULL,
-  PRIMARY KEY (`idEmpleado`),
-  INDEX `fk_empleado_restaurante_idx` (`restaurante_idRestaurante` ASC) VISIBLE,
-  INDEX `fk_Empleado_Puesto1_idx` (`Puesto_idPuesto` ASC) VISIBLE,
-  CONSTRAINT `fk_empleado_restaurante`
-    FOREIGN KEY (`restaurante_idRestaurante`)
-    REFERENCES `Proyecto2Bases1`.`Restaurante` (`idRestaurante`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Empleado_Puesto1`
-    FOREIGN KEY (`Puesto_idPuesto`)
-    REFERENCES `Proyecto2Bases1`.`Puesto` (`idPuesto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
